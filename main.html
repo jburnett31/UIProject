@@ -9,6 +9,21 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
 <script>
   $(function() {
+  var st = "abcdefghijklmnopqrstuvwxyz";
+  for (var i=0; i<st.length; i++){
+                             var l = document.createElement("li");
+                             var h = document.createElement("a");
+                             $(h).attr("href", "#names-" + st[i]);
+                             $(h).html(st[i]);
+                             $(h).appendTo($(l));
+                             $(l).appendTo($("#names-list"));
+                             var d = document.createElement("div");
+                             $(d).attr("id", "names-" + st[i]);
+                             $(d).addClass("names-div");
+                             $(d).appendTo($("#names"));
+                             }
+  });
+  $(function() {
   $("#names").tabs();
   });
 </script>
@@ -21,16 +36,21 @@
 
 <div id="main_nav">
 <div id="names">
-  <ul>
+  <ul id="names-list">
+<!--
     <li><a href="#names-a">A</a></li>
     <li><a href="#names-b">B</a></li>
+-->
   </ul>
+<!--
   <div id="names-a">
     Tom Andersen
-  </div> <!-- names-a -->
+  </div>
   <div id="names-b">
     Jeff Burnett
-  </div> <!-- names-b -->
+  </div>
+-->
+</div> <!-- names -->
 </div> <!-- /main_nav -->
 
 <div id="footer">
