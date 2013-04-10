@@ -5,9 +5,14 @@
 <script type="text/javascript" src="js/main.js"></script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-<link rel="stylesheet" type="text/css" href="css/main.css" />
+<script src="DirectoryData/residents.js"> </script>
+<link rel="stylesheet" type="text/css" href="css/nav.css" />
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
 <script>
+  $(document).ready(function(){
+      var k = $("object")[0].innerHTML;
+      alert(k);
+  });
   $(function() {
   var st = "abcdefghijklmnopqrstuvwxyz";
   for (var i=0; i<st.length; i++){
@@ -27,7 +32,7 @@
   $("#names").tabs();
   });
 </script>
-<link rel="stylesheet" type="text/css" href="css/main.css">
+<script type="text/javascript" src="js/data.js"></script>
 </head>
 
 <body>
@@ -51,6 +56,9 @@
   </div>
 -->
 </div> <!-- names -->
+
+<div style="margin:0 auto; width:100%;height:400px;overflow:auto;"><object id="database" type="text/html" data="DirectoryData/residents.txt" style="width:100%;height:400px;margin:1%;"></object></div>
+
 </div> <!-- /main_nav -->
 
 <div id="footer">
