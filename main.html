@@ -6,27 +6,30 @@
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 <script src="DirectoryData/residents.js"> </script>
-<link rel="stylesheet" type="text/css" href="css/nav.css" />
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="css/nav.css" />
 <script>
-  $(document).ready(function(){
-      var k = $("object")[0].innerHTML;
-      alert(k);
-  });
   $(function() {
-  var st = "abcdefghijklmnopqrstuvwxyz";
-  for (var i=0; i<st.length; i++){
-                             var l = document.createElement("li");
-                             var h = document.createElement("a");
-                             $(h).attr("href", "#names-" + st[i]);
-                             $(h).html(st[i]);
-                             $(h).appendTo($(l));
-                             $(l).appendTo($("#names-list"));
-                             var d = document.createElement("div");
-                             $(d).attr("id", "names-" + st[i]);
-                             $(d).addClass("names-div");
-                             $(d).appendTo($("#names"));
-                             }
+    var db = new Dataset(jsObj);
+    var names = getNames(db);
+    var st = "abcdefghijklmnopqrstuvwxyz";
+    for (var i=0; i<st.length; i++){
+      var l = document.createElement("li");
+      var h = document.createElement("a");
+      $(h).attr("href", "#names-" + st[i]);
+      $(h).html(st[i]);
+      $(h).appendTo($(l));
+      $(l).appendTo($("#names-list"));
+      var d = document.createElement("div");
+      $(d).attr("id", "names-" + st[i]);
+      $(d).addClass("names-div");
+      var str = "";
+      for (var j=0; j<names[st[i]].length; j++){
+        str = str + names[st[i]][j] + "<br />";
+      }
+      $(d).html(str);
+      $(d).appendTo($("#names"));
+    }
   });
   $(function() {
   $("#names").tabs();
@@ -40,25 +43,12 @@
 </div> <!-- /header -->
 
 <div id="main_nav">
-<div id="names">
-  <ul id="names-list">
-<!--
-    <li><a href="#names-a">A</a></li>
-    <li><a href="#names-b">B</a></li>
--->
-  </ul>
-<!--
-  <div id="names-a">
-    Tom Andersen
-  </div>
-  <div id="names-b">
-    Jeff Burnett
-  </div>
--->
-</div> <!-- names -->
-
-<div style="margin:0 auto; width:100%;height:400px;overflow:auto;"><object id="database" type="text/html" data="DirectoryData/residents.txt" style="width:100%;height:400px;margin:1%;"></object></div>
-
+  <div id="tabbed-names">
+    <div id="names">
+      <ul id="names-list">
+      </ul>
+    </div> <!-- names -->
+  </div> <!-- tabbed-names -->
 </div> <!-- /main_nav -->
 
 <div id="footer">
