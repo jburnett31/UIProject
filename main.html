@@ -32,7 +32,10 @@
     }
   });
   $(function() {
-  $("#names").tabs();
+    $("#names").tabs();
+    $("#names").hide();
+    $("#header").mouseover(function(){ $("#names").show(); });
+    $("#names").mouseleave(function(){ $("#names").hide(); });
   });
 </script>
 <script type="text/javascript" src="js/data.js"></script>

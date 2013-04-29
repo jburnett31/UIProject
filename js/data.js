@@ -1,6 +1,6 @@
 //want an object that encompasses creation of records from a file
-function Dataset(filePath){ //mock-up only expects a tab delimited string
-    var inString = filePath; // for mock-up data
+function Dataset(fileString){ //expects a tab delimited string
+    var inString = fileString;
     var records = [];
     var lines = inString.split('\n');
     var headers = lines[0].split('\t');
@@ -14,6 +14,11 @@ function Dataset(filePath){ //mock-up only expects a tab delimited string
         records.push(record);
     }
     return records;
+}
+
+function getFieldNames(db)
+{
+    return Object.keys(db[0]);
 }
 
 function getNames(data){
@@ -30,4 +35,42 @@ function getNames(data){
         names[ab[i]].sort();
     }
     return names;
+}
+
+function getHobbies(db)
+{
+    var arr = [];
+    for (var i=0; i<db.length; i++)
+    {
+       var tmp = db[i]["Hobbies/Interests"].split(",");
+       for (var j=0; j<tmp.length; j++)
+        {
+            var s = tmp[j].toLowerCase();
+            arr.push(s.replace(/(^\s+|\")+/g, ''));
+        }
+    }
+
+    arr = $.grep(arr, function(v, k){
+        return $.inArray(v ,arr) === k;
+    });
+    arr.sort();
+    return arr;
+}
+
+function search(db, field, value)
+{
+    results = [];
+    for (var i=0; i<db.length; i++)
+    {
+        re = new RegExp(value, "gi");
+        if (db[i][field].match(re))
+            results.push(db[i]);
+    }
+    return results;
+}
+
+function PersonPage(container, dbfield)
+{
+    var cont = $("#"+container);
+
 }
