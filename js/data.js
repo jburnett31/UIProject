@@ -37,6 +37,27 @@ function getNames(data){
     return names;
 }
 
+function splitPeoplePhotos(ph)
+{
+    return ph.split(", ");
+}
+
+function getPersonPhoto(ph, row)
+{
+    var img = "";
+    for (var i=0; i<ph.length; i++)
+    {
+        var re = new RegExp("^" + row["KG Number"], "g");
+        if (ph[i].match(re))
+            return ph[i];
+    }
+}
+
+function splitUnitPhotos(ph)
+{
+    return ph.split(", ");
+}
+
 function getHobbies(db)
 {
     var arr = [];
@@ -71,6 +92,65 @@ function search(db, field, value)
 
 function PersonPage(container, dbfield)
 {
-    var cont = $("#"+container);
+    var cont = $("#"+container),
+        image = document.createElement("div"),
+        infocontainer = document.createElement("div"),
+        info = document.createElement("div"),
+        hobbies = document.createElement("div"),
+        unit = document.createElement("div"),
+        namespan = document.createElement("div"),
+        fullname = dbfield["First"] +" "+ dbfield["Last"];
 
+    $(cont).empty();
+    $(image).attr("id","person_image");
+    $(image).addClass("shadow");
+    $(info).attr("id","person_info");
+    $(infocontainer).attr("id","info_container");
+    $(namespan).attr("id","name_header");
+    $(hobbies).attr("id","person_hobbies");
+    $(unit).attr("id","person_unit");
+
+    $(image).html("<img id=\"person_photo\" src=\"KingsGatePeoplePhotos/" + dbfield["KG Number"] +"\"/>");
+
+    $(image).appendTo($(cont));
+    $(namespan).appendTo($(infocontainer));
+    $(info).appendTo($(infocontainer));
+    $(unit).appendTo($(infocontainer));
+    $(infocontainer).appendTo($(cont));
+    $(hobbies).appendTo($(cont));
+    if (dbfield["Approval"] != "declined")
+    {
+        $(namespan).html(fullname + "<hr />");
+        $(info).html(getInfo(dbfield));
+
+        $(hobbies).html();
+
+    } else {
+    }
+
+    function getInfo(row)
+    {
+        var infoList = document.createElement("ul"),
+            address = ["KG Number", "KG street"],
+            summer_address = ["Summer Address", "Summer City", "Summer State", "Summer Zip"],
+            contact_info = ["KG phone", "cell phone", "e-mail", "Summer phone"],
+            fields = ["Education", "Occupation/Profession", "Military Service", "Hobbies/Interests", "Volunteer Activities", "children", "Grandchildren", "Great Grandchildren", "KingsGate History", "Other Information"];
+
+        $(infoList).addClass("info_list");
+
+        for (var i=0; i<fields.length; i++)
+        {
+            if (row[fields[i]] == null || row[fields[i]].match(/^\s*$/g))
+                continue;
+            else
+            {
+                var item = document.createElement("li");
+                $(item).addClass("info_item");
+                var tmp = fields[i] + ": " + row[fields[i]];
+                $(item).html(tmp);
+                $(item).appendTo($(infoList));
+            }
+        }
+        return infoList;
+    }
 }
