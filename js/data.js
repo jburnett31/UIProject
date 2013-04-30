@@ -49,8 +49,12 @@ function getPersonPhoto(ph, row)
     {
         var re = new RegExp("^" + row["KG Number"], "g");
         if (ph[i].match(re))
-            return ph[i];
+        {
+            img = ph[i];
+            break;
+        }
     }
+    return img;
 }
 
 function splitUnitPhotos(ph)
@@ -110,7 +114,7 @@ function PersonPage(container, dbfield)
     $(hobbies).attr("id","person_hobbies");
     $(unit).attr("id","person_unit");
 
-    $(image).html("<img id=\"person_photo\" src=\"KingsGatePeoplePhotos/" + dbfield["KG Number"] +"\"/>");
+    $(image).html("<img id=\"person_photo\" src=\"KingsGatePeoplePhotos/" + getPersonPhoto +"\"/>");
 
     $(image).appendTo($(cont));
     $(namespan).appendTo($(infocontainer));
