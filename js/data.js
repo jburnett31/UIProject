@@ -37,10 +37,8 @@ function getNames(data){
     return names;
 }
 
-function splitPeoplePhotos(ph)
-{
-    return ph.split(", ");
-}
+personPhotos = personPhotos.split(", ");
+unitPhotos = unitPhotos.split(", ");
 
 function getPersonPhoto(ph, row)
 {
@@ -55,11 +53,6 @@ function getPersonPhoto(ph, row)
         }
     }
     return img;
-}
-
-function splitUnitPhotos(ph)
-{
-    return ph.split(", ");
 }
 
 function getHobbies(db)
@@ -114,7 +107,7 @@ function PersonPage(container, dbfield)
     $(hobbies).attr("id","person_hobbies");
     $(unit).attr("id","person_unit");
 
-    $(image).html("<img id=\"person_photo\" src=\"KingsGatePeoplePhotos/" + getPersonPhoto +"\"/>");
+    $(image).html("<img id=\"person_photo\" src=\"DirectoryData/KingsGatePeoplePhotos/" + getPersonPhoto(personPhotos, dbfield) +"\"/>");
 
     $(image).appendTo($(cont));
     $(namespan).appendTo($(infocontainer));
