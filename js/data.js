@@ -111,6 +111,7 @@ function PersonPage(container, dbfield)
 
     $(image).appendTo($(cont));
     $(namespan).appendTo($(infocontainer));
+
     $(info).appendTo($(infocontainer));
     $(unit).appendTo($(infocontainer));
     $(infocontainer).appendTo($(cont));
@@ -125,13 +126,43 @@ function PersonPage(container, dbfield)
     } else {
     }
 
+    function getAddress(row)
+    {
+        address = ["KG Number", "KG street"];
+        regAddr = [];
+        for (var i=0; i<address.length; i++)
+        {
+            if (row[address[i]] == null || row[address[i]].match(/^\s*$/g))
+                continue;
+            else
+                regAddr.push(row[address[i]]);
+        }
+        return regAddr.join(", ");
+    }
+
+    function getSummerAddr(row)
+    {
+        summer_address = ["Summer Address", "Summer City", "Summer State", "Summer Zip"];
+        sumAddr = [];
+        for (var i=0; i<summer_address.length; i++)
+        {
+            var tmp = row[address[i]];
+            if (tmp == null || tmp.match(/^\s*$/g))
+                continue;
+            else
+                sumAddr.push(tmp);
+        }
+        return sumAddr.join(", ");
+    }
+
     function getInfo(row)
     {
         var infoList = document.createElement("ul"),
-            address = ["KG Number", "KG street"],
-            summer_address = ["Summer Address", "Summer City", "Summer State", "Summer Zip"],
             contact_info = ["KG phone", "cell phone", "e-mail", "Summer phone"],
             fields = ["Education", "Occupation/Profession", "Military Service", "Hobbies/Interests", "Volunteer Activities", "children", "Grandchildren", "Great Grandchildren", "KingsGate History", "Other Information"];
+
+
+
 
         $(infoList).addClass("info_list");
 
