@@ -87,7 +87,7 @@ function search(db, field, value)
     return results;
 }
 
-function PersonPage(container, dbfield)
+function PersonPage(container, previous, dbfield)
 {
     var cont = $("#"+container),
         image = document.createElement("div"),
@@ -96,6 +96,7 @@ function PersonPage(container, dbfield)
         hobbies = document.createElement("div"),
         unit = document.createElement("div"),
         namespan = document.createElement("div"),
+        backButton = document.createElement("div"),
         fullname = dbfield["First"] +" "+ dbfield["Last"];
 
     $(cont).empty();
@@ -107,10 +108,24 @@ function PersonPage(container, dbfield)
     $(hobbies).attr("id","person_hobbies");
     $(unit).attr("id","person_unit");
 
+    $(unit).html("Go to Unit page");
+    $(unit).click(function(){
+        var u = new UnitPage("unit_page", cont, dbfield);
+        $(cont).hide();
+        $(u).show();
+    });
+
     $(image).html("<img id=\"person_photo\" src=\"" + getPersonPhoto(personPhotos, dbfield) +"\"/>");
 
     $(image).appendTo($(cont));
     $(namespan).appendTo($(infocontainer));
+
+    $(backButton).html("Back");
+    $(backButton).appendTo($(cont));
+    $(backButton).click(function(){
+        $(cont).hide();
+        $(previous).show();
+    });
 
     $(info).appendTo($(infocontainer));
     $(unit).appendTo($(infocontainer));
@@ -125,6 +140,8 @@ function PersonPage(container, dbfield)
 
     } else {
     }
+
+    return $(cont);
 
     function getAddress(row)
     {
@@ -204,8 +221,12 @@ function PeopleResultPage(container, db, field, value)
         $(name).appendTo($(item));
         $(item).addClass("result_item");
         $(item).appendTo($(cont));
-        $(item).click(function(){
-            var p = new PersonPage("#personPage", results[i]);
-        });
+        (function(it, res){
+            $(it).click(function(){
+                var p = new PersonPage("person_container", container, res);
+                $(cont).hide();
+                $(p).show();
+            });
+        })(item, results[i]);
     }
 }
