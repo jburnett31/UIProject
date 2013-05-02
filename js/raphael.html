@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="http://www.raphaeljs.com/raphael.js"></script>
+<script type="text/javascript">
+window.onload = function()
+{
+  var paper = Raphael("canvas",1000,1000);
+  var circle = paper.circle(50,40,10);
+  circle.attr("fill", "#f00");
+  circle.attr("stroke", "#fff");
+  circle.glow();
+  window.circle = circle;
+  window.paper = paper;
+};
+</script>
+</head>
+<body style="background-color: gray">
+<div id="canvas"></div>
+</body>
+</html>

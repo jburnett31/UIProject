@@ -45,3 +45,18 @@
 .info_item
 {
 }
+.result_item
+{
+    height: 40px;
+    width: 400px;
+    margin: 5px;
+    padding: 2px;
+    border: 1px solid black;
+}
+.result_name
+{
+    height: 40px;
+    padding-top: 10px;
+    padding-left: 10px;
+    float: left;
+}

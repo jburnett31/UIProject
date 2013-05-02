@@ -42,13 +42,13 @@ unitPhotos = unitPhotos.split(", ");
 
 function getPersonPhoto(ph, row)
 {
-    var img = "";
+    var img = "DirectoryData/KingsGatePeoplePhotos/";
     for (var i=0; i<ph.length; i++)
     {
         var re = new RegExp("^" + row["KG Number"], "g");
         if (ph[i].match(re))
         {
-            img = ph[i];
+            img += ph[i];
             break;
         }
     }
@@ -80,7 +80,7 @@ function search(db, field, value)
     results = [];
     for (var i=0; i<db.length; i++)
     {
-        re = new RegExp(value, "gi");
+        re = new RegExp(".*"+value+".*", "gi");
         if (db[i][field].match(re))
             results.push(db[i]);
     }
@@ -107,7 +107,7 @@ function PersonPage(container, dbfield)
     $(hobbies).attr("id","person_hobbies");
     $(unit).attr("id","person_unit");
 
-    $(image).html("<img id=\"person_photo\" src=\"DirectoryData/KingsGatePeoplePhotos/" + getPersonPhoto(personPhotos, dbfield) +"\"/>");
+    $(image).html("<img id=\"person_photo\" src=\"" + getPersonPhoto(personPhotos, dbfield) +"\"/>");
 
     $(image).appendTo($(cont));
     $(namespan).appendTo($(infocontainer));
@@ -180,5 +180,32 @@ function PersonPage(container, dbfield)
             }
         }
         return infoList;
+    }
+}
+
+function PeopleResultPage(container, db, field, value)
+{
+    var cont = $("#"+container),
+        results = search(db, field, value),
+        query = document.createElement("div"),
+        fields = ["First", "Last"];
+
+    for (var i in results)
+    {
+        var thumb = document.createElement("img"),
+            name = document.createElement("div"),
+            item = document.createElement("div");
+        $(thumb).attr("src", getPersonPhoto(personPhotos, results[i]));
+        $(thumb).attr({height: "40px", width: "40px"});
+        $(thumb).css({float: "left"});
+        $(thumb).appendTo($(item));
+        $(name).html(results[i]["First"] + " " + results[i]["Last"]);
+        $(name).addClass("result_name");
+        $(name).appendTo($(item));
+        $(item).addClass("result_item");
+        $(item).appendTo($(cont));
+        $(item).click(function(){
+            var p = new PersonPage("#personPage", results[i]);
+        });
     }
 }
