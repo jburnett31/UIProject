@@ -55,6 +55,21 @@ function getPersonPhoto(ph, row)
     return img;
 }
 
+function getUnitPhoto(ph, row)
+{
+    var img = "DirectoryData/KingsGateUnitPhotos/";
+    for (var i=0; i<ph.length; i++)
+    {
+        var re = new RegExp("^" + row["KG Number"], "g");
+        if (ph[i].match(re))
+        {
+            img += ph[i];
+            break;
+        }
+    }
+    return img;
+}
+
 function getHobbies(db)
 {
     var arr = [];
@@ -121,11 +136,16 @@ function PersonPage(container, previous, dbfield)
     $(namespan).appendTo($(infocontainer));
 
     $(backButton).html("Back");
+    $(backButton).attr("id", "person_back");
+    $(backButton).css({height: "40px", width: "60px", position: "relative", top: "100px"});
     $(backButton).appendTo($(cont));
-    $(backButton).click(function(){
-        $(cont).hide();
-        $(previous).show();
-    });
+    (function(bu, prev)
+     {
+         $(bu).click(function(){
+             $(cont).hide();
+             $(prev).show();
+         });
+     })(backButton, previous);
 
     $(info).appendTo($(infocontainer));
     $(unit).appendTo($(infocontainer));
@@ -200,6 +220,39 @@ function PersonPage(container, previous, dbfield)
     }
 }
 
+function UnitPage(container, previous, dbfield)
+{
+    var cont = $("#"+container),
+        image = document.createElement("div"),
+        img = document.createElement("img"),
+        title = document.createElement("div"),
+        info = document.createElement("div"),
+        back = document.createElement("div"),
+        forward = document.createElement("div");
+
+    $(image).addClass("shadow");
+    $(img).attr("src", getUnitPhoto(unitPhotos, dbfield));
+    $(img).appendTo($(image));
+    $(image).appendTo($(cont));
+    $(title).addClass("name_header");
+    $(title).html("Lot #" + dbfield["KG Number"]);
+    $(title).appendTo($(cont));
+
+    //info
+
+    $(back).html("Previous Unit");
+    $(back).appendTo($(cont));
+    $(forward).html("Next Unit");
+    $(forward).appendTo($(cont));
+
+    return $(cont);
+}
+
+function UnitResultPage(container, db, field, value)
+{
+
+}
+
 function PeopleResultPage(container, db, field, value)
 {
     var cont = $("#"+container),
@@ -229,4 +282,5 @@ function PeopleResultPage(container, db, field, value)
             });
         })(item, results[i]);
     }
+    return $(cont);
 }
